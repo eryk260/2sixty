@@ -31,6 +31,7 @@ Move the following services from the DC to a service mesh powered by Kubernetes 
 - [Adwords](https://github.com/essence-tech/adwords)
 - [Apple SEM](https://github.com/essence-tech/apple-search-ads)
 - [DBM](https://github.com/essence-tech/dbm)
+- [DS3](https://github.com/essence-tech/ds3)
 - [Facebook](https://github.com/essence-tech/facebook)
 - [LinkedIn](https://github.com/essence-tech/linkedin-data)
 - [Snapchat](https://github.com/essence-tech/snapchat)
