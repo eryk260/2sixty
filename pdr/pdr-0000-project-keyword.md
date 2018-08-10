@@ -1,12 +1,12 @@
+<!-- File format pdr/pdr-0000-project-keyword.md -->
+
 # PDR 0000: Product decision record template
 
 ## Status
 
-**proposed**
-~~accepted~~
-~~rejected~~
-~~deprecated~~
-~~superseded~~
+- [x] active
+- [ ] deprecated
+- [ ] superseded
 
 ## Context
 

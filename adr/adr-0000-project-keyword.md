@@ -1,12 +1,12 @@
+<!-- File format adr/adr-0000-project-keyword.md -->
+
 # ADR 0000: Architecture decision record template
 
 ## Status
 
-**proposed**
-~~accepted~~
-~~rejected~~
-~~deprecated~~
-~~superseded~~
+- [x] active
+- [ ] deprecated
+- [ ] superseded
 
 ## Context
 
