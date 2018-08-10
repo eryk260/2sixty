@@ -2,11 +2,10 @@
 
 ## Status
 
-**proposed**
-~~accepted~~
-~~rejected~~
-~~deprecated~~
-~~superseded~~
+- [x] active
+- [ ] rejected
+- [ ] deprecated
+- [ ] superseded
 
 ## Context
 
