@@ -12,7 +12,7 @@
 ## Context
 
 Starkiller needs a centralised logging system so that we can reliable trace requests and events running through our
-distributed system. There are two leading options; the (incumbent EFK stack)[https://essencedigital.atlassian.net/wiki/spaces/IO/pages/558170113/EFK]
+distributed system. There are two leading options; the [incumbent EFK stack](https://essencedigital.atlassian.net/wiki/spaces/IO/pages/558170113/EFK)
 and Stackdriver. Both have their advantages and disadvantages which we will try to list here (thanks to Csaba for this)
 
 ### EFK
@@ -32,17 +32,17 @@ and Stackdriver. Both have their advantages and disadvantages which we will try 
 
 #### Pro
 
-- Is widely available in Google Cloud and it's available for Google Kubernetes Engine as well. Requires no maintenance overhead from devops/sysops engineers and easier to (setup)[https://cloud.google.com/kubernetes-engine/docs/how-to/logging]
+- Is widely available in Google Cloud and it's available for Google Kubernetes Engine as well. Requires no maintenance overhead from devops/sysops engineers and easier to [setup](https://cloud.google.com/kubernetes-engine/docs/how-to/logging)
 - Probably higher availability
 - Probably cheaper
 - With advanced filtering, you can observe cross-project logs
 - Besides sending pod/container logs, kubernetes also sends:
   - Kubelet and container run-time logs
   - Logs for system components, such as VM startup scripts (Don't know if we would be able to send these to our EFK)
-- (Logs-based metrics)[https://cloud.google.com/logging/docs/logs-based-metrics/]
+- [Logs-based metrics](https://cloud.google.com/logging/docs/logs-based-metrics/)
   - Counter metrics
   - Distribution metrics
-- Stackdriver used (log-based metrics)[https://cloud.google.com/logging/docs/logs-based-metrics/charts-and-alerts] to visualise logs
+- Stackdriver used [log-based metrics](https://cloud.google.com/logging/docs/logs-based-metrics/charts-and-alerts) to visualise logs
 - Cloud functions logs are pushed to Stackdriver as well
 
 #### Con
