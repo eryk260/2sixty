@@ -1,6 +1,6 @@
 <!-- File format ddr/ddr-0000-project-keyword.md -->
 
-# DDR 0000: Product decision record template
+# DDR 0000: Design decision record template
 
 ## Status
 
