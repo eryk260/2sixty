@@ -1,4 +1,4 @@
-<!-- File format pdr/pdr-0000-project-keyword.md -->
+<!-- File format ddr/ddr-0000-project-keyword.md -->
 
 # DDR 0000: Product decision record template
 
