@@ -17,9 +17,9 @@ Provided in the [adrs](./adr) and [pdrs](./pdr) folders are templates to create 
 2. clone the `adr-0000-project-keyword-YYYY-MM-DD.md`, changing the record number to a `9999` placeholder and the project & keyword to better reflect the decision being made. 
 3. Submit a pull request of the new branch with the new decision record, where it will be open for discussion.
 4. Depending on the outcome (approved, rejected etc), another commit is made 
-  - updating the status
-  - updating the file name record number to the latest on master +1
-  - updating the filename date to reflect the date the decision was made
+    - updating the status
+    - updating the file name record number to the latest on master +1
+    - updating the filename date to reflect the date the decision was made
 5. The Pull request is merged into Master.
 
 
