@@ -12,7 +12,7 @@ A lot more detail is available [here](https://github.com/joelparkerhenderson/arc
 
 Provided in the [adrs](./adr) and [pdrs](./pdr) folders are templates to create a new one including how to name your records.
 
-## How create a new ADR
+## How to create a new ADR
 1. Create a new branch from master
 2. clone the `adr-0000-project-keyword-YYYY-MM-DD.md`, changing the record number to a `9999` placeholder and the project & keyword to better reflect the decision being made. 
 3. Submit a pull request of the new branch with the new decision record, where it will be open for discussion.
