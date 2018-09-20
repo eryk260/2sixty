@@ -1,6 +1,6 @@
-<!-- File format ddr/ddr-0000-project-keyword.md -->
+<!-- File format pdr/pdr-0000-project-keyword-YYYY-MM-DD.md -->
 
-# DDR 0000: Design decision record template
+# PDR 0000: Product decision record template
 
 ## Status
 

@@ -1,6 +1,6 @@
-<!-- File format adr/adr-0000-project-keyword.md -->
+<!-- File format ddr/ddr-0000-project-keyword-YYYY-MM-DD.md -->
 
-# ADR 0000: Architecture decision record template
+# DDR 0000: Design decision record template
 
 ## Status
 

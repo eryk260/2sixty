@@ -1,6 +1,6 @@
-<!-- File format pdr/pdr-0000-project-keyword.md -->
+<!-- File format adr/adr-0000-project-keyword-YYYY-MM-DD.md -->
 
-# PDR 0000: Product decision record template
+# ADR 0000: Architecture decision record template
 
 ## Status
 
