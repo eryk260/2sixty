@@ -29,9 +29,9 @@ This would streamline the trafficking process, reduce a step in the mapping file
 ## Consequences
 
 * Time saved (per quarter) building+QAIng the mapping file
-    Analytics - 80 hrs
-    Planning -  4 hrs
-    Activation - 65 hrs
+    * Analytics - 80 hrs
+    * Planning -  4 hrs
+    * Activation - 65 hrs
 * Can automate QA with more reliable mapping
 * Can automated monitoring for in-flight recruitment if IDs are mapped
 * Enables Analytics to further automate the survey procedure
