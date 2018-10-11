@@ -39,3 +39,6 @@ This would streamline the trafficking process, reduce a step in the mapping file
 * Distinction between Scrutineer and Non-Scrutineer placements more easily identifiable
 * Additional step for Activation/Analytics to enter ID
 * Increased maintenance of an Olive/Scrutineer/DCM mapping table
+
+## Additional Notes
+JIRA Request to have Scrutineer data available in Datalake - https://essencedigital.atlassian.net/browse/BD-515
