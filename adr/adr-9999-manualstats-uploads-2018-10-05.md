@@ -34,18 +34,28 @@ Notes:
 [https://camry.essencedigital.com](https://camry.essencedigital.com)
 
 Camry uploads initially went through the Olive MediaConnectors interface, however it was found to be too difficult to
-develop on the Olive platform.
+develop on the Olive platform. Camry can essentially be viewed as Olive MediaConnectors 2.0, and has the same capabilities
+and more on top.
+
+Notes:
+
+- Multiple "templates" to define different type of uploads
+- Field validation logic is possible, along with custom field validation like MRF codes
+- Row validation logic is possible.
+- Whole file validation / mutation is possible.
+- Gzip compression in browser to facilitate faster uploads.
 
 ### ROMI
 
 [ROMI Data Collection](https://docs.google.com/document/d/1vfo_YlAz7KfRBdGM65929ydf79fSGVQiF5nP-zE59_I/edit)
 
-Analytics are looking for a way to perform manual uploads.
+Analytics are looking for a way to perform manual uploads to support the ROMI project.
 
 ## Decision
 
-The decision that we are making.
+Take the existing Camry frontend and upload service and convert it into a generic 2sixty csv uploading platform.
 
 ## Consequences
 
-The consequences of the decision.
+The Camry project will change slightly, becoming just the ETL part of the process. The uploading frontend of camry will be
+rebranded and decoupled from the ETL backend and provide upload events for other backends to consume.
