@@ -21,7 +21,8 @@ example to my knowledge.
 
 This is the point of entry for manual stats upload in to Olive that come via Intern or the Sheet add-on. Capable of validation
 of fields and custom business logic with multiple different templates available, although it has basically been abandoned
-and is only used for delivery and events uploads.
+and is only used for delivery and events uploads. In terms of moving Olive to the cloud MediaConnectors may be a blocker
+as it is fairly wrapped up in MIS3.
 
 Notes:
 
@@ -40,16 +41,18 @@ and more on top.
 Notes:
 
 - Multiple "templates" to define different type of uploads
+- Required and optional columns
 - Field validation logic is possible, along with custom field validation like MRF codes
-- Row validation logic is possible.
+- Row validation logic is possible (fields depending on other fields).
 - Whole file validation / mutation is possible.
-- Gzip compression in browser to facilitate faster uploads.
+- Gzip compression in browser to facilitate larger and faster uploads.
 
 ### ROMI
 
 [ROMI Data Collection](https://docs.google.com/document/d/1vfo_YlAz7KfRBdGM65929ydf79fSGVQiF5nP-zE59_I/edit)
 
-Analytics are looking for a way to perform manual uploads to support the ROMI project.
+Analytics are looking for a way to perform manual uploads. The Camry uploader already supports many of the features
+that they need, and adding the extra features should be trivial.
 
 ## Decision
 
