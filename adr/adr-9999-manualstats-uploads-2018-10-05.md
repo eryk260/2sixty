@@ -54,6 +54,11 @@ Notes:
 Analytics are looking for a way to perform manual uploads. The Camry uploader already supports many of the features
 that they need, and adding the extra features should be trivial.
 
+### Others
+
+- First party client data
+- Offline data uploads
+
 ## Decision
 
 Take the existing Camry frontend and upload service and convert it into a generic 2sixty csv uploading platform.
