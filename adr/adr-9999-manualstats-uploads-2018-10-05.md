@@ -11,7 +11,7 @@
 
 ## Context
 
-Many products and initiatives at Essence require some sort of file upload. The file often needs to be checked for valididty,
+Many products and initiatives at Essence require some sort of file upload. The file often needs to be checked for validity,
 formatting and some business rules. Essence has several current implementations of this, and at least one proposed
 example to my knowledge.
 
@@ -21,7 +21,7 @@ example to my knowledge.
 
 This is the point of entry for manual stats upload in to Olive that come via Intern or the Sheet add-on. Capable of validation
 of fields and custom business logic with multiple different templates available, although it has basically been abandoned
-and is only used for delivery and events uploads. In terms of moving Olive to the cloud MediaConnectors may be a blocker
+and is only used for delivery and events uploads. In terms of moving Olive to the cloud, MediaConnectors may be a blocker
 as it is fairly wrapped up in MIS3.
 
 Notes:
@@ -43,9 +43,9 @@ Notes:
 - Multiple "templates" to define different type of uploads
 - Required and optional columns
 - Field validation logic is possible, along with custom field validation like MRF codes
-- Row validation logic is possible (fields depending on other fields).
-- Whole file validation / mutation is possible.
-- Gzip compression in browser to facilitate larger and faster uploads.
+- Row validation logic is possible (fields depending on other fields)
+- Whole file validation / mutation is possible
+- Gzip compression in browser to facilitate larger and faster uploads
 
 ### ROMI
 
@@ -65,5 +65,5 @@ Take the existing Camry frontend and upload service and convert it into a generi
 
 ## Consequences
 
-The Camry project will change slightly, becoming just the ETL part of the process. The uploading frontend of camry will be
-rebranded and decoupled from the ETL backend and provide upload events for other backends to consume.
+The Camry project will change slightly, becoming just the ETL part of the process. The uploading frontend of Camry will be
+rebranded and decoupled from the ETL backend and provide upload events for other backends to consume. Support coverage of this expanded Camry would also need to grow.  A Sheet add-on would also need to be repointed to Camry.
