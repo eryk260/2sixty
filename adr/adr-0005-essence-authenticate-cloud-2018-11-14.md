@@ -1,6 +1,6 @@
 <!-- File format adr/adr-0000-project-keyword-YYYY-MM-DD.md -->
 
-# ADR 0000: Architecture decision record template
+# ADR 0005: Essence-Authenticate Cloud migration (For Dev and Staging)
 
 ## Status
 
@@ -11,9 +11,9 @@
 
 ## Context
 
-Multiple requests across the business aligning which suggest that we need to move with migrating essence-authenticate (Keycloak) Staging and Development (Named UAT) environments to the cloud.
-We will change architecture decisions from VM's to Kubernetes. 
-This will also mean migrating Production environment to Kubernetes. There should be no downtime in this migration.
+Multiple requests across the business aligning which suggest that we need to move with migrating essence-authenticate (Keycloak) Staging and Development (Named UAT) environments to the cloud. With every service and product currently being migrated or developed in the cloud, their environments need to talk to our authentication service on the appropriate environment.
+
+As this ADR conforms to Kubernetes, this will mean migrating the Production environment from ComputeEngine instance groups to Kubernetes.
 
 ## Decision
 
@@ -25,20 +25,20 @@ We will be doing the following:
 - Quadrant Network assigned to the project (Shared VPC)
 - Staging & Dev Environments moved to Kubernetes (Preemptible single node; node pool for Dev, Static single node; node pools for Staging)
 - [Production](https://console.cloud.google.com/home/dashboard?organizationId=520597094442&project=essence-authenticate) migrated to Kubernetes from ComputeEngine instance groups (2 node; node pools non-preemptible in 2 regions for failover)
-- KMS to hold secrets for DB and access
+- Cloud KMS to hold secrets for DB and access
 - Deployment CICD done through Gitlab CI file
 - Repo to hold source code https://github.com/essence-tech/essence-keycloak and mirrored through Gitlab for CI Capabilities
-- Ingress resource & controller used for directing Traffic instead of nginx-endpoints project.
+- Ingress resource & controller used for directing Traffic on instead of nginx-endpoints project & keep *.essenceglobal.com domain
 
 
-Migrating Dev and Staging to the cloud will mean the deprication of:
+Migrating Dev and Staging to the cloud will mean the deprication of the following VM's:
 
-authenticate-staging.essenceglobal.com
 Host: ess-lon-keycloak-001s
+Serves: authenticate-staging.essenceglobal.com
 Deployment: Puppet
 
-authenticate-uat.essenceglobal.com (Used for Dev)
 Host: ess-lon-keycloak-002s
+Serves: authenticate-uat.essenceglobal.com (Used for Dev)
 Deployment: Puppet
 
 
