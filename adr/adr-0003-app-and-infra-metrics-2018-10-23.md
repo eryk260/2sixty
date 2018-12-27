@@ -1,4 +1,4 @@
-# ADR 0005: Application and Infrastructure metrics
+# ADR 0003: Application and Infrastructure metrics
 
 ## Status
 
