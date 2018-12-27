@@ -1,4 +1,4 @@
-# ADR 0004: Configuration and Secrets
+# ADR 0005: Configuration and Secrets
 
 ## Status
 
