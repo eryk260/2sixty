@@ -13,7 +13,7 @@ Currently, manual upload csv files are processed and validated before the output
 
 ## Decision
 
-Instead of the data from the csv upload being loaded to MIS Schema, Olive will instead change the destination to a GCP bucket. This GCP bucket is the same one that Camry is using. Datalake will change the source from which it reads manual uploads to be this GCP bucket.
+In addition to the data from the csv upload being loaded to MIS Schema, Olive will also send CSVs to a GCP bucket. Datalake will change the source from which it reads manual uploads to be this GCP bucket.
 
 ## Consequences
 
@@ -21,3 +21,4 @@ Instead of the data from the csv upload being loaded to MIS Schema, Olive will i
 * Datalake will need to read CSV files rather than database table rows
 * Olive will need to be refactored to change the destination of the manual uploads
 * Olive has a feature where it shows the historical manual uploads. To maintain this feature, we will need to archive all old manual uploads in the new destination too.
+* When we actually remove the MIS db we will need to do cleanup on Olive to no longer upload the CSVs in the MIS schema since it will not exist and will throw errors.
