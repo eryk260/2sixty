@@ -31,8 +31,8 @@ For that, we created the following architecture:
               +-------------------------+  |     +--------------------+
               |Empire project           |  |
               |                         |  |     +--------------------+
-              |    hosts all compute    |  |     |Project N           |
-              |       resources         |  |     |                    |
+              |    hosts all shared     |  |     |Project N           |
+              |    compute resources    |  |     |                    |
               |                         |  |     |  Hosts product N   |
               |                         |  |     |                    |
               +-----------+-------------+  |     ++-------------------+
