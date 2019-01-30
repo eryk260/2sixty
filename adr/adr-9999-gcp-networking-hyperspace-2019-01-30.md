@@ -12,7 +12,7 @@
 ## Context
 
 - the company is growing fast, which means, that we are creating more and more gcp projects for the new products
-- the new projects require new VPC networks
+- the new projects require new VPC networks, because the default VPC created at project creation time is not satisfying the security (too open) and subnet criteria
 - to allow VPC network peering, we need to make sure, that there are no overlapping subnets within each VPC
 - this causes, that we need to track in a document, which subnets were created
 - it also means, that if the product requires VPN connection back to the DC, we need to configure VPN multiple times (as many times as many times we create a new project for a new product, which wants to reach DC)
