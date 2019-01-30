@@ -22,7 +22,7 @@
 GCP supports a technology called [Shared VPC](https://cloud.google.com/vpc/docs/shared-vpc). This allows us to create a single project with a single VPC and all the subnets and connect all of the product projects to this project, so they can see and use this one shared VPC.
 
 For that, we created the following architecture:
-
+```
                                                  +--------------------+
                                                  |Project A           |
                                                  |                    |
@@ -46,7 +46,7 @@ For that, we created the following architecture:
 |     route rules and VPN connections (all shared)        |
 |                                                         |
 +---------------------------------------------------------+
-
+```
 
 The Galactic Hyperspace project (sixty-hyperspace) project contains initially a single VPC network called Quadrant-A. That network will host all of the subnets, firewall rules (potentially route rules) and VPN connection (singular - name: Wormhole) for every product/project, which needs network stack.
  
