@@ -16,21 +16,35 @@ pre-requisite to that ADR the workloads of DevOps engineers needs to be more
 automated and this ADR is meant to provide that.
 
 We are trying to bring all aspects of resource provisioning into a standard
-Infrastructure-As-Code model. The benefits of doing this are:
+Infrastructure-As-Code model. Without an IaC model:
 
-- version controlled configuration
-- auditable history of changes
-- ability to link a change to management systems e.g. Jira
-- high confidence in understanding the current state of our systems
-- roll-back facility e.g. undo changes and re-deploy
-- repeatable e.g. ability to deploy exact replicas into test environments
+- system state is either unknown or has to be manually logged (which is error
+  prone even if done correctly).
+
+- there is no way to *confidentally* recover a broken system, or recreate one
+  from scratch
+
+- updates can be ad-hoc and done without recording
+
+- lacking full audit history
+
+We already have some IaC solutions within the organisation, and there exists a
+possibilty to use third-party solutions, however:
+
+- each solution is non-standard, requiring each engineer to have particular
+  knowledge
+
+- it would be too much to ask users to learn how to use each solution, therefore
+  DevOps engineers would have to take on all configuration work manually.
+
+- 3rd party solutions would involve a certain amount of lock-in
+
+## Decision
 
 With IaC definitions held in version control we will be able to provide tooling
 that works with the definitions to provide a self-service model to end users
 who ask for resources. That tooling will also be part of the work covered under
 this ADR.
-
-## Decision
 
 We have decided to implement an IaC framework to help us provide a standardised
 approach to implement IaC definitions and work flows. The framework will
@@ -99,10 +113,31 @@ engineers:
 
 ## Consequences
 
-By using a chatops approach within a standardised framework we enable engineers
-to work more effectively by not having to worry about the data formats they are
-actually manipulating. We also enable an ability to open up self-service
-facilities to end users which reduces the burden on SRE (or DevOps) resources.
+With an IaC framework in place:
 
-As a result of more automation there is a greater need for DevOps engineers who
-are more experienced with development (esp in Python).
+- version controlled configuration
+
+- auditable history of changes
+
+- high confidence in understanding the current state of our systems
+
+- roll-back facility e.g. undo changes and re-deploy
+
+- repeatable e.g. ability to deploy exact replicas into test environments
+
+- by using a chatops approach within a standardised framework we enable
+  engineers to work more effectively by not having to worry about the data
+  formats they are actually manipulating. 
+
+- enable an ability to open up self-service facilities to end users which
+  reduces the burden on SRE (or DevOps) resources.
+
+- enforce a certain level of discipline into IaC; e.g. having to provide a
+  programmable API makes engineers consider how usable their solution will be.
+  
+- as a result of more automation there is a greater need for DevOps engineers
+  who are more experienced with development (esp in Python).
+
+- no lock-in, and the API approach means other interfaces (e.g. CLI) could be 
+  switched in and used instead or as well.
+
