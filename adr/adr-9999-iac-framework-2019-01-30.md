@@ -51,56 +51,61 @@ approach to implement IaC definitions and work flows. The framework will
 provide software, services and documentation to meet the needs of DevOps and
 end users of DevOps services. 
 
-```
-                +----------------------+-------------------------+
-                |                      |                         |
-                |                      |                         |
-                |                      |                         |
- IaC Framework  |     ChatOps Bots     |        IaC Services     |
-   Services     |                      |                         |
-                |                      |                         |
-                |                      |                         |
-                |                      |                         |
-+-------------------------------+------+--------+----------------+
-                |               |               |                |
- Google Source  |               |               |                |
- Repositories   |    GitHub     |    Projects   |     ....       |
-                |               |               |                |
-                |               |               |                |
-                +---------------+---------------+----------------+
-```
-
 - all IaC config will be stored in Google Source Repositories. Each
   supported feature will have its own repo.
 
-- each repo contains a Python API module within itself in a standard location;
-  the IaC Framework services manipulate the repo config only via this API. The
-  API would also prove useful should we wish to implement other utilities e.g.
-  a command line interface.
+- each repo contains a Python API module in a standard location, representing
+  the 'control surface' of the feature. The API would also prove useful should
+  we wish to implement other utilities e.g.  a command line interface.
 
-- a repo's API includes the ability to build and deploy itself into its
-  target environments.
+- Framework services manipulate the repo config via this API. 
 
-- each repo is configured to publish to one or more PubSub topics whenever it
+- a GSR repo is configured to publish to one or more PubSub topics whenever it
   is updated. IaC Framework services are subscribers and can respond to these
   updates.
-
-- the repos are manipulated by chat bots and some service modules. The chat
-  bots provide a a user interface and a form of external history that
-  complements the git log; e.g. the chat conversation between engineers might
-  provide additional context to a configuration change.
-
-- the service modules handle some messaging from pubsub and orchestrate the
-  building and deployment of tagged versions, and report updates on builds to
-  the bots.
-
-- the chat bots use the repo APIs to update configuration in response to
-  engineer requests e.g. ```github add user newguy to Jedi``` would update the
-  GitHub IaC configuration appropriately.
 
 - initial access to these chatbots will be limited to DevOps. In future we
   could allow a self-service model e.g. in GitHub, team leaders could have
   permission to add/remove members to their own teams via the chat bot.
+
+For an example, this is the flow around the GitHub IaC feature:
+
+```
+
+                           <-API->
+       +-----------------+         +-----------------+  Pubsub  +-----------------+
+       |                 |         |                 |          |                 |
+       |                 |         |                 |          |                 |
+       >    GitHub Bot   +--------->   GitHub IaC    +---------->     BuildMgr    |
+       |                 |         |    GSR Repo     |          |                 |
+       |                 |         |                 |          |                 |
+       +---^----------^--+         +-----------------+          +-------+---------+
+           |          |                                                 |
+           |          |                                                 |
++----------+------+   |                                                 |
+|                 |   |                                                 |
+|                 |   |                                                 |
+|      Slack      |   +-------------------------------------------------+
+|                 |                     Pubsub
+|                 |
++-----------------+
+```
+
+1. DevOps engineer enters `!github add user john to DevOps` into Slack.
+
+1. GitHub bot loads GitHub API from repo and uses it to add the user.
+
+1. DevOps engineer enters `!github deploy` into Slack.
+
+1. GitHub bot tags the current version with a `deploy_<timestamp>` tag and pushes the repo.
+
+1. GSR sends a pubsub update which BuildMgr receives.
+
+1. BuildMgr clones the repo, and executes the deploy script within, passing the 
+tag as a parameter (which allows the build script to determine what to do).
+
+1. When finished, BuildMgr publishes the build results to pubsub, and the bot
+reports the results.
 
 In the short term we will focus on implementing two services for DevOps
 engineers:
