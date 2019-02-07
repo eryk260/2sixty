@@ -116,6 +116,11 @@ engineers:
 - Projects - providing a UI (for the user) and back-end work flow to request,
   approve and provision projects in GCP in the new sixty-hyperspace model.
 
+Note: There is a requirement that GitHub management needs to account for
+keeping 2sixty's repositories under IaC while allowing Essence's repositories
+to be managed under the current regime of individual repository administrators.
+
+
 ## Consequences
 
 With an IaC framework in place:
