@@ -32,7 +32,7 @@ Form a new team called Site Reliabilty Engineers (SREs). Their responsibility wi
 The last point is crucial, because it keeps the SRE team size under control.
 
 **Responsibilities of Managed Service Provider (MSP) and/or Cloud Service Provider (CSP)**
-- describe here
+- oreo TODO 
 - describe here
 - describe here
 
