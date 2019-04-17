@@ -19,6 +19,7 @@ Tao Song our security consultant proposes following Folder structure for all the
 
 260 folder
 	Shared folder
+
 	   - Security project
 	   - Admin project
 	   - Logging project
@@ -26,14 +27,17 @@ Tao Song our security consultant proposes following Folder structure for all the
 	   - Host ( this is the host for shared vpc if you need VPN and interconnect
 
 	Production folder
+	
 	   - Security project 2sixty-prod-proj-security
 	   - Admin project
 
 	Dev folder
+
 	    - Security project 2sixty-dev-proj-security (time to live needs to be determined) 
 	    - Admin project
 
 	SIT/Test folder ( system integration test env)
+
 	     - Security project
 	     - Admin project
 
@@ -41,6 +45,7 @@ Tao Song our security consultant proposes following Folder structure for all the
 
 ## Consequences
    Benefit of following above folder structure is 
+   
    	- we can define generic role/policies for Dev , Production & Test environment rather than defining rules at project level. 
    	- Roles and policies will be inherited based on environment.
    	- More clarity on state of project i.e. project in dev mode or production.
