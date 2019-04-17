@@ -1,6 +1,6 @@
 <!-- File format ddr/ddr-0000-project-keyword-YYYY-MM-DD.md -->
 
-# DDR 0000: Design decision record template
+# DDR 0013: Centralised GCP Audit Logs
 
 ## Status
 
@@ -11,20 +11,21 @@
 
 ## Context
 
-This ADR is to Centralised GCP Audit Logs. 
+This ADR is to Centralised GCP Audit Logs in BigQuery. 
 
-No doubt GCP Stack Driver is use to for storing and monitoring audit logs both application and system logs. Stackdriver has retention period for each log. 
+GCP Stack Driver is use to for storing and monitoring audit logs both application and system logs. Stackdriver has retention period for each log. 
 
 Requirement is to retain system audit logs beyond the standard retention  periods 
-for Auditing purpose e.g. SOX compliance audit 
+defined in stackdriver so that logs could be use for monitoring , alerting and SOX Compliance audit
 
-Develop Datalab reports for monitoring and alerting.
  
 More information : https://docs.google.com/document/d/13kSTJEthSwiGpJrB37F2PFcucMIctAYzNT7F5SuKcIU/edit?usp=sharing
  
 
 ## Decision
-
+   Centralised Audit logs in BigQuery
 
 ## Consequences
-
+   - Datalab report for monitoring and alerting can be developed using audit logs in BigQuery
+   - Data from BigQuery table could be used for SOX Compliance audit
+   - Audit logs retainedment policy can be determined based on Requirement of 2sixty
