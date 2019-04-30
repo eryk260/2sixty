@@ -79,7 +79,7 @@ How should Audit logs be monitored
 
 The script can be scheduled to run everyday , a security office can analysed the report and check if there is any suspicious activity
  
-More information on Audito logs : https://docs.google.com/document/d/13kSTJEthSwiGpJrB37F2PFcucMIctAYzNT7F5SuKcIU/edit?usp=sharing
+More information on HOTTO-Audit logs : https://docs.google.com/document/d/13kSTJEthSwiGpJrB37F2PFcucMIctAYzNT7F5SuKcIU/edit?usp=sharing
 ## Decision
    Centralised Audit logs in BigQuery
 
