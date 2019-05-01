@@ -38,6 +38,7 @@ Tao Song our security consultant proposes following Folder structure for all the
 		- Security project
 		- Admin project
 
+Proposed Security Folder structure : https://docs.google.com/presentation/d/1wFKmTN6W0OVZvvKm2cqrb2jwgrJlYXLdZ9PT0h7s91Y/edit?usp=sharing
 
 
 ## Consequences
