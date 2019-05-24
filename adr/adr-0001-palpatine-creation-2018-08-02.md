@@ -2,10 +2,10 @@
 
 ## Status
 
-- [ ] active
+- [x] active
 - [ ] rejected
 - [ ] deprecated
-- [x] superseded
+- [ ] superseded
 
 ## Context
 
