@@ -15,6 +15,8 @@ decoupled from authorization enforcement.
 It is possible to provide authentication and authorization at a platform level, meaning that each service in the
 mesh would get this provided for it by default with no work needed by developers.
 
+## Decision
+
 The technologies that would enable this are [Istio](https://istio.io) and [Open Policy Agent](https://www.openpolicyagent.org/).
 Istio provides a sidecar proxy which can be configured with an external authn/z provider, this external provider would be
 Open Policy Agent which would be able to make decisions on the authentication and authorization status of a request.
@@ -63,7 +65,7 @@ easy to iterate and change depending on product needs, without using developer r
 3. The Istio sidecar makes an authn/z check to the OPA agent which will make the deicision as to allow the request based on the policies it has fetched from the policy server.
 4. If the check is allowed the request continues through to the service itself, if it is denied the sidecar responds with an appropriate error code.
 
-## Decision
+### Decisions
 
 - Move authentication and authorization decisions to OPA
 - Create a policy server to maintain policies for the platform
