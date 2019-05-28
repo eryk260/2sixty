@@ -29,3 +29,4 @@ Istio is deployed as part of our Kubernetes clusters.
 
 - Slightly more load upon the clusters as new containers are introduced
 - Monitoring for all enabled Services
+- Leads to standardised authentication and authorization along with OPA
