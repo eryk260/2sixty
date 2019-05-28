@@ -103,11 +103,15 @@ The flags combine to the following meanings:
     - read from FS, sort lowest id with valid timestamp
     - report based on winning id compared to self.id etc.
 
+We have also discussed the possibility of an automated notification service
+whereby pipelines can be triggered automatically in the event that a new
+cluster has just been created.
+
 ## Consequences
 
 - deveopers have the responsibility for deployment to clusters; 'you built it;
   you run it' applies
+- software needs to be developed with the above environment in mind
 - SRE has the responsibility for notifications about cluster events
 - SRE provides tooling to help deployments to the clusters and manage failovers
   automatically.
-- software needs to be developed with the above environment in mind
