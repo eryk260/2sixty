@@ -109,9 +109,10 @@ cluster has just been created.
 
 ## Consequences
 
-- deveopers have the responsibility for deployment to clusters; 'you built it;
-  you run it' applies
-- software needs to be developed with the above environment in mind
+- developers have the responsibility for deployment to clusters; 'you built it;
+  you run it'
+- software needs to be developed with the above environment in mind wrt
+  fail-over and resilience
 - SRE has the responsibility for notifications about cluster events
 - SRE provides tooling to help deployments to the clusters and manage failovers
   automatically.
