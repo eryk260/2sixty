@@ -2,7 +2,7 @@
 
 ## Status
 
-- [ ] active
+- [x] active
 - [ ] rejected
 - [ ] deprecated
 - [ ] superseded
@@ -10,13 +10,12 @@
 ## Context
 
 ADR-0007 describes how we are using a 'global cluster' model whereby all the
-kubernetes based applications run on a pair of clusters.
+kubernetes based applications run on two or more clusters.
 
-There will be circumstances when the global clusters require maintenance, or in
-the event of a major outage, a complete rebuild. In these circumstances the
-developers need to know how and when to deploy to these clusters, and what
-support they should expect to receive from the SRE team to help coordinate
-their efforts.
+There will be circumstances when the clusters require maintenance. In these
+circumstances the developers need to know how and when to redeploy to the
+clusters, and what support they should expect to receive from the SRE team to
+help coordinate their efforts.
 
 Route53 is mentioned within this ADR as it assumes this is how load
 balancing/DNS will be managed.
@@ -25,13 +24,20 @@ balancing/DNS will be managed.
 
 ### Normal Operation
 
-SRE will run two clusters during normal operations. Both clusters will be
-maintained to the same versions of platform, and as far as the developers are
-concerned should be identical resources.
+SRE will provision at least two clusters. The clusters will be maintained to
+the same versions of platform, and as far as the developers are concerned
+should be identical resources.
 
 Developers will use GitLab CI to deploy their applications to the clusters.
-There is no requirement to inform SRE of an application deployment.  Developers
-will ensure that the correct deployments are made to both clusters.
+There is no requirement to inform SRE of an application deployment. Developers
+will ensure that the correct deployments are made to the available clusters.
+
+SRE will provide scripts and utilities to help developers write pipelines that
+can deploy to the currently active clusters.
+
+The deployment pipelines need to be cluster agnostic - no cluster-specific
+information will be presented to the deployments. The applications should not
+depend on which cluster(s) they are being deployed to or running on.
 
 ### Cluster Maintenance
 
@@ -44,41 +50,29 @@ maintenance. SRE will do this in two ways:
 The development teams should ensure that their deployments on the other cluster
 are up to date in advance of the maintenance.
 
-Effort will be made to perform the maintenance with minimal disruption, but
-this is not guaranteed. The developers have the option to scale-down their
-deployments on the affected cluster if they choose to.
+SRE will ensure traffic is not routed to the affected cluster(s) before
+maintenance starts. The cluster will then be taken offline.
+
+Following a maintenance or outage event, the SRE team will notify the
+development teams that one or more clusters needs to be re-deployed to.
 
 ### Cluster Outage
 
 In a sudden outage event the applications on the remaining cluster should take
 over automatically. Health checks from R53 should detect the outage and route
-traffic accordingly. The cluster status service (see below) also indicates the
-status of the cluster will be the active one.
+traffic accordingly within 15s.
 
-### Cluster Rebuilds
-
-There are few circumstances requiring rebuilds:
-
-* New features that can only be enabled at build-time
-* Upgrade/maintenance went wrong
-* Human error
-* Large-scale outage within Google
-
-In the event SRE can rebuild the cluster in the same region then it will be
-re-created with the same cluster name. Following the rebuild SRE will notify
-the developers that the cluster needs to be deployed to.
-
-An alternative, more automated approach, involves GitLab triggers. These allow
-simple HTTP requests to trigger pipelines in GitLab CI. The triggers even
-support the use of variables passed in the request. Therefore, each development
-team could simply provide SRE with the correct 'curl' command to trigger a
-deployment, and the SRE team need only run the whole set of commands to deploy
-everything to the new cluster.
+SRE will provision a new cluster to replace the affected cluster, and notify
+the developers that deployment is needed.
 
 ### Cluster Status Service
 
-While both clusters are normally running it may be useful to have a globally
-consistent view of which cluster is considered active vs stand-by.
+While the clusters are running it may be useful to have a globally consistent
+view of which cluster is considered active vs stand-by; this can be used by
+services that need to run only in a single location, but have the resilience
+afforded by a fail-over to another cluster.
+
+The proposal for this service is as follows.
 
 SRE will provide a status service within the global clusters. This is an HTTP
 endpoint (private within each cluster) that returns cluster status data when
@@ -99,23 +93,21 @@ The flags combine to the following meanings:
 |  Y    |     Y       |We're in trouble |
 
 
-* Possible Leader Algorithm: *
+#### Possible Leader Algorithm:
 
-each node:
-- every 10s
-- write nodeid (clusterId, or configMap entry?) and timestamp to fs
+    each node:
+    - every 10s
+    - write nodeid (clusterId, or configMap entry?) and timestamp to fs
 
-when queried from http client:
-- read from FS, sort lowest id with valid timestamp
-- report based on winning id compared to self.id etc.
+    when queried from http client:
+    - read from FS, sort lowest id with valid timestamp
+    - report based on winning id compared to self.id etc.
 
 ## Consequences
 
-- the responsibility for deployment to clusters remains with the developers
-- 'you built it; you run it' applies
+- deveopers have the responsibility for deployment to clusters; 'you built it;
+  you run it' applies
+- SRE has the responsibility for notifications about cluster events
 - SRE provides tooling to help deployments to the clusters and manage failovers
   automatically.
 - software needs to be developed with the above environment in mind
-
-
-
