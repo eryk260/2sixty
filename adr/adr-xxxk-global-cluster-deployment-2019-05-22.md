@@ -18,43 +18,120 @@ clusters, and what support they should expect to receive from the SRE team to
 help coordinate their efforts.
 
 Route53 is mentioned within this ADR as it assumes this is how load
-balancing/DNS will be managed.
+balancing/DNS will be managed (this is covered in another ADR).
 
 ## Decision
 
 ### Normal Operation
 
 SRE will provision at least two clusters. The clusters will be maintained to
-the same versions of platform, and as far as the developers are concerned
-should be identical resources.
+the same versions of platform, and as far as the developers are concerned are
+identical resources.
 
 Developers will use GitLab CI to deploy their applications to the clusters.
 There is no requirement to inform SRE of an application deployment. Developers
 will ensure that the correct deployments are made to the available clusters.
 
-SRE will provide scripts and utilities to help developers write pipelines that
-can deploy to the currently active clusters.
+SRE will provide Global Cluster Utilities to help developers write pipelines
+that can deploy to the currently active clusters. The developers should use
+these utilities unless there is good reason not to.
 
-The deployment pipelines need to be cluster agnostic - no cluster-specific
+The deployment pipelines need to be cluster agnostic - no cluster specific
 information will be presented to the deployments. The applications should not
 depend on which cluster(s) they are being deployed to or running on.
 
-### Cluster Maintenance
+### Cluster Events
 
-SRE will inform developmemt teams when a cluster is going to be put into
-maintenance. SRE will do this in two ways:
+SRE maintain a list of the currently active clusters (called the Global Cluster
+List File), which is used by the Global Cluster Utilities.
 
-* manual communication (slack, email etc tbd) AND;
-* cluster status service (automated, see below)
+SRE will inform developmemt teams when a cluster event has occurred. The only
+requirement on development teams is for them to trigger a re-deployment
+process. If the pipelines are using the Global Cluster Utilities then the
+deployments to the currently active clusters will 'just work' (tm).
 
-The development teams should ensure that their deployments on the other cluster
-are up to date in advance of the maintenance.
+Behind the scenes, SRE will also be manipulating the Route53 settings as
+necessary to direct the traffic to the clusters. This will be transparent to
+the end users but more details are documented below for further information.
 
-SRE will ensure traffic is not routed to the affected cluster(s) before
-maintenance starts. The cluster will then be taken offline.
+### Implementation Details
 
-Following a maintenance or outage event, the SRE team will notify the
-development teams that one or more clusters needs to be re-deployed to.
+This may not be the best place to document but it may be useful.
+
+We are using Route53 to route traffic to the active clusters, assuming the
+Route53 health checks to the services on the clusters are passing.
+
+When a cluster is taken down (or goes offline) SRE will evaluate the situation,
+but route53 should already be directing traffic to the remaining cluster(s).
+
+If the cluster can be restored to service then it will be. Traffic will start
+to flow back to the cluster if everything restarts OK.
+
+However, if SRE determine a more serious incident response is required, then:
+
+- the cluster will be deleted from GCP
+- it will then be rebuilt by IaC
+- SRE will update the Global Cluster List and;
+- notify the developers
+
+#### Global Cluster List
+
+Developers are notified any time that the Global Cluster List is changed.
+
+For SRE, it is a simple text file stored in GCS. The format is ```rank
+projectID region clusterID```.  `rank` is an incrementing number. Any new or
+rebuilt cluster gets assigned the next 'rank' and added to the end of the list.
+
+```
+1 sixty-empire us-central1 us-c1-gke
+2 sixty-empire us-east1 us-e1-gke
+```
+
+Example events:
+
+us-c1-gke goes down. SRE update the list to remove it. It's the weekend so they
+decided to wait until Monday for a rebuild.
+
+```
+2 sixty-empire us-east1 us-e1-gke
+```
+
+SRE rebuild us-c1-gke and then add it back to the end of the list:
+
+```
+2 sixty-empire us-east1 us-e1-gke
+3 sixty-empire us-central1 us-c1-gke
+```
+
+SRE win the lottery and give us a new cluster:
+
+```
+2 sixty-empire us-east1 us-e1-gke
+3 sixty-empire us-central1 us-c1-gke
+4 sixty-empire us-west1 us-w1-gke
+```
+
+us-c1-gke has another outage cycle, but it's dealt with quickly.
+
+```
+2 sixty-empire us-east1 us-e1-gke
+4 sixty-empire us-west1 us-w1-gke
+5 sixty-empire us-central1 us-c1-gke
+```
+
+#### Primary Cluster / Single Location Applications
+
+The primary cluster is the first in the list. In the case where an application
+should only ever run on one cluster, it will need to choose the primary
+cluster.  This scenario is appropriate for systems which can handle an outage
+measured in minutes.
+
+SRE provides a cluster-rank-service that can be used to control these kinds of
+applications. The CRS will respond with an HTTP code 200 if the cluster is the
+primary cluster. Once it is the primary cluster it will remain that way until
+it is deleted. i.e. there is no flip-flop between clusters. The next cluster in
+the rank will take over once the cluster list is updated to remove the primary.
+
 
 ### Cluster Outage
 
@@ -64,48 +141,6 @@ traffic accordingly within 15s.
 
 SRE will provision a new cluster to replace the affected cluster, and notify
 the developers that deployment is needed.
-
-### Cluster Status Service
-
-While the clusters are running it may be useful to have a globally consistent
-view of which cluster is considered active vs stand-by; this can be used by
-services that need to run only in a single location, but have the resilience
-afforded by a fail-over to another cluster.
-
-The proposal for this service is as follows.
-
-SRE will provide a status service within the global clusters. This is an HTTP
-endpoint (private within each cluster) that returns cluster status data when
-queried:
-
-    - name of the cluster
-    - active/stand-by status flag
-    - maintenance flag
-    - next scheduled maintenance
-
-The flags combine to the following meanings:
-
-|Active | Maintenance |Comment          |
-|-------|-------------|-----------------|
-|  Y    |     N       |Active cluster   |
-|  N    |     N       |Standby cluster  |
-|  N    |     Y       |Under maintenance|
-|  Y    |     Y       |We're in trouble |
-
-
-#### Possible Leader Algorithm:
-
-    each node:
-    - every 10s
-    - write nodeid (clusterId, or configMap entry?) and timestamp to fs
-
-    when queried from http client:
-    - read from FS, sort lowest id with valid timestamp
-    - report based on winning id compared to self.id etc.
-
-We have also discussed the possibility of an automated notification service
-whereby pipelines can be triggered automatically in the event that a new
-cluster has just been created.
 
 ## Consequences
 
