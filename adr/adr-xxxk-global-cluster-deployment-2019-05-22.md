@@ -37,8 +37,9 @@ that can deploy to the currently active clusters. The developers should use
 these utilities unless there is good reason not to.
 
 The deployment pipelines need to be cluster agnostic - no cluster specific
-information will be presented to the deployments. The applications should not
-depend on which cluster(s) they are being deployed to or running on.
+information will be presented to the deployments, only some abstract
+identifiers. The applications should not depend on which cluster(s) they are
+being deployed to or running on.
 
 ### Cluster Events
 
@@ -54,7 +55,18 @@ Behind the scenes, SRE will also be manipulating the Route53 settings as
 necessary to direct the traffic to the clusters. This will be transparent to
 the end users but more details are documented below for further information.
 
-### Implementation Details
+## Consequences
+
+- developers have the responsibility for deployment to clusters; 'you built it;
+  you run it'
+- software needs to be developed with the above environment in mind wrt
+  fail-over and resilience
+- SRE has the responsibility for notifications about cluster events
+- SRE provides tooling to help deployments to the clusters and manage failovers
+  automatically.
+
+
+## Implementation Details
 
 This may not be the best place to document but it may be useful.
 
@@ -70,21 +82,28 @@ to flow back to the cluster if everything restarts OK.
 However, if SRE determine a more serious incident response is required, then:
 
 - the cluster will be deleted from GCP
-- it will then be rebuilt by IaC
+- it will be rebuilt by IaC
 - SRE will update the Global Cluster List and;
 - notify the developers
 
-#### Global Cluster List
+### Global Cluster List
+
+This list contains the details of the currently provisioned global clusters.
 
 Developers are notified any time that the Global Cluster List is changed.
 
 For SRE, it is a simple text file stored in GCS. The format is ```rank
-projectID region clusterID```.  `rank` is an incrementing number. Any new or
+clusterID projectID region```.  `rank` is an incrementing number. Any new or
 rebuilt cluster gets assigned the next 'rank' and added to the end of the list.
 
+The rank is passed from the Global Cluster Utilities to the deployment. Its
+purpose is to provide an abstract unique identifier for the cluster at
+deployment time without revealing the actual cluster ID. This is to avoid the
+temptation of building deployment scripts that rely on cluster IDs.
+
 ```
-1 sixty-empire us-central1 us-c1-gke
-2 sixty-empire us-east1 us-e1-gke
+1 us-c1-gke sixty-empire us-central1
+2 us-e1-gke sixty-empire us-east1
 ```
 
 Example events:
@@ -93,33 +112,33 @@ us-c1-gke goes down. SRE update the list to remove it. It's the weekend so they
 decided to wait until Monday for a rebuild.
 
 ```
-2 sixty-empire us-east1 us-e1-gke
+2 us-e1-gke sixty-empire us-east1
 ```
 
 SRE rebuild us-c1-gke and then add it back to the end of the list:
 
 ```
-2 sixty-empire us-east1 us-e1-gke
-3 sixty-empire us-central1 us-c1-gke
+2 us-e1-gke sixty-empire us-east1
+3 us-c1-gke sixty-empire us-central1
 ```
 
 SRE win the lottery and give us a new cluster:
 
 ```
-2 sixty-empire us-east1 us-e1-gke
-3 sixty-empire us-central1 us-c1-gke
-4 sixty-empire us-west1 us-w1-gke
+2 us-e1-gke sixty-empire us-east1
+3 us-c1-gke sixty-empire us-central1
+4 us-w1-gke sixty-empire us-west1
 ```
 
 us-c1-gke has another outage cycle, but it's dealt with quickly.
 
 ```
-2 sixty-empire us-east1 us-e1-gke
-4 sixty-empire us-west1 us-w1-gke
-5 sixty-empire us-central1 us-c1-gke
+2 us-e1-gke sixty-empire us-east1
+4 us-w1-gke sixty-empire us-west1
+5 us-c1-gke sixty-empire us-central1
 ```
 
-#### Primary Cluster / Single Location Applications
+### Primary Cluster / Single Location Applications
 
 The primary cluster is the first in the list. In the case where an application
 should only ever run on one cluster, it will need to choose the primary
@@ -132,22 +151,15 @@ primary cluster. Once it is the primary cluster it will remain that way until
 it is deleted. i.e. there is no flip-flop between clusters. The next cluster in
 the rank will take over once the cluster list is updated to remove the primary.
 
+A simple shell script wrapper waits for the CRS to report that the cluster
+is primary:
 
-### Cluster Outage
+e.g.
+```
+#!/bin/sh
+while ! curl --silent --fail http://rank.service.default.cluster;do
+    sleep 60
+done
+# start application...
+```
 
-In a sudden outage event the applications on the remaining cluster should take
-over automatically. Health checks from R53 should detect the outage and route
-traffic accordingly within 15s.
-
-SRE will provision a new cluster to replace the affected cluster, and notify
-the developers that deployment is needed.
-
-## Consequences
-
-- developers have the responsibility for deployment to clusters; 'you built it;
-  you run it'
-- software needs to be developed with the above environment in mind wrt
-  fail-over and resilience
-- SRE has the responsibility for notifications about cluster events
-- SRE provides tooling to help deployments to the clusters and manage failovers
-  automatically.
