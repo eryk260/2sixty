@@ -17,8 +17,8 @@ circumstances the developers need to know how and when to redeploy to the
 clusters, and what support they should expect to receive from the SRE team to
 help coordinate their efforts.
 
-Route53 is mentioned within this ADR as it assumes this is how load
-balancing/DNS will be managed (this is covered in another ADR).
+This ADR assumes the availability of a load-balancing solution that can
+handle routing of requests to clusters based on health-checks.
 
 ## Decision
 
@@ -46,47 +46,41 @@ being deployed to or running on.
 SRE maintain a list of the currently active clusters (called the Global Cluster
 List File), which is used by the Global Cluster Utilities.
 
-SRE will inform developmemt teams when a cluster event has occurred. The only
-requirement on development teams is for them to trigger a re-deployment
-process. If the pipelines are using the Global Cluster Utilities then the
-deployments to the currently active clusters will 'just work' (tm).
+SRE will inform developmemt teams when an update to this list has occurred;
+usually in response to a cluster event. The only requirement on development
+teams is for them to trigger a re-deployment process. If the pipelines are
+using the Global Cluster Utilities then the deployments to the currently active
+clusters will 'just work' (tm).
 
-Behind the scenes, SRE will also be manipulating the Route53 settings as
-necessary to direct the traffic to the clusters. This will be transparent to
-the end users but more details are documented below for further information.
+Behind the scenes, SRE will also be manipulating the load-balancing set up
+necessary to direct the traffic to the clusters.
 
 ## Consequences
 
-- developers have the responsibility for deployment to clusters; 'you built it;
-  you run it'
-- software needs to be developed with the above environment in mind wrt
-  fail-over and resilience
+- developers have the responsibility for deployment to clusters
 - SRE has the responsibility for notifications about cluster events
-- SRE provides tooling to help deployments to the clusters and manage failovers
-  automatically.
+- SRE provides tooling to help deployments to the clusters and help manage
+  failovers automatically.
 - SRE has the responsibility to ensure that global clusters are completely
   interchangeable resources with no intrinsic dependencies for the developers.
-
 
 ## Implementation Details
 
 This may not be the best place to document but it may be useful.
 
-We are using Route53 to route traffic to the active clusters, assuming the
-Route53 health checks to the services on the clusters are passing.
-
 When a cluster is taken down (or goes offline) SRE will evaluate the situation,
-but route53 should already be directing traffic to the remaining cluster(s).
+but load-balancing should already be directing traffic to the remaining
+cluster(s).
 
 If the cluster can be restored to service then it will be. Traffic will start
 to flow back to the cluster if everything restarts OK.
 
-However, if SRE determine a more serious incident response is required, then:
+However if SRE determine a more serious incident response is required then:
 
 - the cluster will be deleted from GCP
-- it will be rebuilt by IaC
-- SRE will update the Global Cluster List and;
-- notify the developers
+- SRE *may* update the Global Cluster List at this point
+- the cluster will be rebuilt by IaC
+- SRE will update the Global Cluster List
 
 ### Global Cluster List
 
@@ -150,14 +144,15 @@ us-c1-gke has another outage cycle, but it's dealt with quickly.
 
 The primary cluster is the first in the list. In the case where an application
 should only ever run on one cluster, it will need to choose the primary
-cluster.  This scenario is appropriate for systems which can handle an outage
+cluster. This scenario is appropriate for systems which can handle an outage
 measured in minutes.
 
 SRE provides a cluster-rank-service that can be used to control these kinds of
 applications. The CRS will respond with an HTTP code 200 if the cluster is the
 primary cluster. Once it is the primary cluster it will remain that way until
-it is deleted. i.e. there is no flip-flop between clusters. The next cluster in
-the rank will take over once the cluster list is updated to remove the primary.
+it is deleted. i.e. there is no flip-flop back to the previous. The next
+cluster in the rank will take over once the cluster list is updated to remove
+the primary.
 
 A simple shell script wrapper waits for the CRS to report that the cluster
 is primary:
