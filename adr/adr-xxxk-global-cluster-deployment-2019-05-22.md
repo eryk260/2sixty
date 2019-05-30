@@ -36,7 +36,7 @@ SRE will provide Global Cluster Utilities to help developers write pipelines
 that can deploy to the currently active clusters. The developers should use
 these utilities unless there is good reason not to.
 
-The deployment pipelines need to be cluster agnostic - no cluster specific
+The deployment pipelines must be cluster agnostic - no cluster specific
 information will be presented to the deployments, only some abstract
 identifiers. The applications should not depend on which cluster(s) they are
 being deployed to or running on.
@@ -64,6 +64,8 @@ the end users but more details are documented below for further information.
 - SRE has the responsibility for notifications about cluster events
 - SRE provides tooling to help deployments to the clusters and manage failovers
   automatically.
+- SRE has the responsibility to ensure that global clusters are completely
+  interchangeable resources with no intrinsic dependencies for the developers.
 
 
 ## Implementation Details
@@ -92,15 +94,19 @@ This list contains the details of the currently provisioned global clusters.
 
 Developers are notified any time that the Global Cluster List is changed.
 
-For SRE, it is a simple text file stored in GCS. The format is ```rank
-clusterID projectID region```.  `rank` is an incrementing number. Any new or
-rebuilt cluster gets assigned the next 'rank' and added to the end of the list.
+The list is a simple text file stored in GCS. The format is ```rank clusterID
+projectID region```.  `rank` is an incrementing number. Any new or rebuilt
+cluster gets assigned the next 'rank' and added to the end of the list.
 
 The rank is passed from the Global Cluster Utilities to the deployment. Its
 purpose is to provide an abstract unique identifier for the cluster at
 deployment time without revealing the actual cluster ID. This is to avoid the
 temptation of building deployment scripts that rely on cluster IDs.
 
+One place rank is useful in a deployment is the Cluster Rank Service (see
+below).
+
+Example list file:
 ```
 1 us-c1-gke sixty-empire us-central1
 2 us-e1-gke sixty-empire us-east1
@@ -108,8 +114,10 @@ temptation of building deployment scripts that rely on cluster IDs.
 
 Example events:
 
+(developers are notified after each list update)
+
 us-c1-gke goes down. SRE update the list to remove it. It's the weekend so they
-decided to wait until Monday for a rebuild.
+decided to wait until Monday for a rebuild:
 
 ```
 2 us-e1-gke sixty-empire us-east1
