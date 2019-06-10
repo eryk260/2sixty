@@ -26,6 +26,63 @@ easy to iterate and change depending on product needs, without using developer r
 
 ### Architecture
 
+#### Permissions and Roles
+
+We will use Keycloak as our identity provider, and rely upon the JWT payloads that it provides. Each service within the mesh will
+have a "Client" created for it in the 2sixty Keycloak realm. Within this client entity we will define the "Roles" that each service
+provides, these could be created via an API by something like the Policy Server. The "Roles" at the client level should map fairly
+closely to what are called permissions in google cloud, for example:
+
+- cloudsql.instances.connect
+- cloudsql.instances.get
+
+Once these have been defined we can then create realm level "Composite Roles", for example taking the two permissions above, we would create
+the _roles/cloudsql.client_ role. CloudSQL being our example service here.
+
+This sort of setup will allow a high level of composability and granular control over who and what can access our services.
+
+#### Service to service communication
+
+Each service with its corresponding "Client" has a service account attached to it. These can be assigned roles or permissions, and
+will allow us to control which services access other services if needed. Access tokens outside of the context of a user can be acquired
+using the Client Credentials grant type.
+
+#### Authorization enforcement
+
+Given the above has been setup, we can enforce different policies at the request entry to the service. With OPA this is written using a
+language called rego. As a simple example, we have a Hello World service running, we wish to restrict access to only a few users. First we
+create a role, lets call it _helloworld.usage_. Second we create a composite role _roles/helloworld.user_ and assign the role to the
+composite role. Now we assign the users who need access to that role in Keycloak. Finally we write some policy to enforce this,
+without having to make any code changes to the actual Hello World service.
+
+```
+package service.adwords
+
+# This is the input that we are receiving
+import input
+
+# Parse the JWT token in the input
+token = {"payload": payload} {
+    io.jwt.decode(input.token, [_, payload, _])
+}
+
+# By default we are not going to allow requests to this service
+default allow = false
+
+# Within this block we AND the conditions to get the result
+allow {
+    input.method = "GET"
+    input.path == "/"
+    token.payload.resource_access["hello-world"].roles[_] == "helloworld.usage"
+}
+```
+
+Now users who have the _helloworld.usage_ role can access the service, and users without it will be denied.
+
+#### Example request flow
+
+Assuming an JWT token has already been acquired:
+
 ```
      Incoming request
 
