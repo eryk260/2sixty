@@ -49,7 +49,7 @@ Permissions should be named in the following way:
 
 > service.resource.action
 
-Roles should be names in the following way:
+Roles should be named in the following way:
 
 > roles/service.role
 
@@ -59,7 +59,7 @@ The roles prefix allows us to identify the difference between permissions and ro
 
 Given the above has been setup, we can enforce different policies at the request entry to the service. With OPA this is written using a
 language called rego. As a simple example, we have a Hello World service running, we wish to restrict access to only a few users. First we
-create a permission, lets call it _helloworld.greeter.get. Second we create a role \_roles/helloworld.user_ and assign the permission to the
+create a permission, lets call it _helloworld.greeter.get_. Second we create a role _roles/helloworld.user_ and assign the permission to the
 role. Now we assign the users who need access to that role in Keycloak. Finally we write some policy to enforce this,
 without having to make any code changes to the actual Hello World service.
 
