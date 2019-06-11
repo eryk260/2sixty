@@ -1,6 +1,6 @@
 <!-- File format adr/adr-0000-project-keyword-YYYY-MM-DD.md -->
 
-# ADR 9999: Global load balancing for Empire GKE clusters
+# ADR 0014: Global load balancing for Empire GKE clusters
 
 ## Status
 

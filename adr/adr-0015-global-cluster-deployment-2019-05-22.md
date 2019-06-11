@@ -1,4 +1,4 @@
-# ADR XXXX: Deployment to Global GKE Clusters
+# ADR 0015: Deployment to Global GKE Clusters
 
 ## Status
 
