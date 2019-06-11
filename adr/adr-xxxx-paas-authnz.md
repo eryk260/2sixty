@@ -51,7 +51,7 @@ Permissions should be named in the following way:
 
 Roles should be names in the following way:
 
-> roles/serivce.role
+> roles/service.role
 
 The roles prefix allows us to identify the difference between permissions and roles in Keycloak.
 
