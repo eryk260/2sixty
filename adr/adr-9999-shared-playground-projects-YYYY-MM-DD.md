@@ -1,6 +1,6 @@
 <!-- File format adr/adr-0000-project-keyword-YYYY-MM-DD.md -->
 
-# ADR 9999: Shared Playground Projects
+# ADR 9999: Shared Playground Project
 
 ## Status
 
