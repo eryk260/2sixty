@@ -23,6 +23,8 @@ The feedback of a few minutes quickly becomes burdensome when encountering overs
 
 We will create a single GCP playground project, **sixty-playground** where approved developers (developers who agree to usage conditions - more on this shortly) can create resources freely, outside of the IAC framework *for the purpose of investigation, not application testing*. This gives developers a place where they can play with new resource types / learn the parameters that an IAC module would require to administer this resource type and importantly, a very fast feedback loop.
 
+Given this is a shared project, developers are encouraged to prefix / tag / label their resources with their name / their product name so other developers can navigate the project more easily.
+
 This project would be wiped out on a daily basis @ 4AM UTC (time is sensitive to developer locations; 3AM/4AM London time, 5AM/6AM Lviv Time, 11PM/Midnight New York Time) so all resources / identities / permissions would be deleted in order to:
 - Keep costs under control.
 - Discourage developers from developing dependencies in this environment / doing testing that they should be doing in their own IAC-managed test environment.
