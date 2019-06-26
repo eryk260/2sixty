@@ -1,6 +1,6 @@
 <!-- File format adr/adr-0000-project-keyword-YYYY-MM-DD.md -->
 
-# ADR 0012: Nexus as our chosen NPM registry 
+# ADR 0016: Nexus as our chosen NPM registry 
 
 ## Status
 
