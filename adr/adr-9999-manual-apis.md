@@ -27,14 +27,12 @@ to give out to all and sundry.
 
 ## Decision
 
-The decision is to create a small Gsuite group,  members of which will be
+The decision is to create a small Gsuite group, members of which will be
 responsible for administration of this and any other identified resources.
 The proposed members should include:
 
 - 2 architects
-- 2 SRE team members
-
-i.e. a maximum of 4 members.
+- SRE team members
 
 The group will be given the 'roles/editor' permission in a product's YAML
 definition, either at product folder level or project level as appropriate.
@@ -47,5 +45,7 @@ members with read-only allowed to certain outside users.
 ## Consequences
 
 This will allow the administration of the resources while limiting as far as
-possible the broad permissions required. By keeping the definition with the
-product YAML files we also have auditable history of the group's permissions.
+possible the broad permissions required. By keeping the permissions of the
+group in the product YAML files we also have auditable history of the group's
+permissions against the projects, though of course not of the resources that
+the group members have created or changed in GCP.
