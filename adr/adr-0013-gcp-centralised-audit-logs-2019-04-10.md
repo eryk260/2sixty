@@ -11,17 +11,19 @@
 
 ## Context
 
-This ADR is to Centralised GCP Audit Logs. 
+This ADR concerns the Centralisation and retention of GCP Audit Logs. 
 
-Scope :
- GCP Stack Driver is use to for storing and monitoring audit logs both application and system logs. Stackdriver has retention period for each log. 
+##Scope :
+GCP Stack Driver is used for storing and monitoring audit logs,
+both application and system categories of logs.
+Stackdriver has default retention period of 90 days for each log entry.
 
 Requirement is to retain system audit logs beyond the standard retention  periods 
 for Auditing purpose e.g. SOX compliance audit 
 
 Develop Datalab reports for monitoring and alerting.
   
-Goal:  
+##Goal:  
 1) To properly audit activities and compliance , e.g GRC standards in a cloud environment multiple resources of information needs to be reviewed and correlated. 
 
 There include a number of built in and third party services. Some are enabled by default ,and some need to be activated and configured . Ideally the various resource of actives logs and audit processes will be consolidated to facilitate change and incident management  
