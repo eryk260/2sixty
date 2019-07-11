@@ -1,6 +1,6 @@
 <!-- File format ddr/ddr-0000-project-keyword-YYYY-MM-DD.md -->
 
-# DDR 0013: Centralised GCP Audit Logs
+# ADR 0013: Centralised GCP Audit Logs
 
 ## Status
 
@@ -16,13 +16,14 @@ This ADR concerns the Centralisation and retention of GCP Audit Logs.
 *Scope :*
 only GCP platform is being covered, other cloud providers will be covered as part of separate ADR.
 
-GCP Stack Driver is used for storing and monitoring logs,
+GCP Stack Driver is used for storing and monitoring log entries,
 both application and system categories of logs.
-Stackdriver has default retention period of 90 days for each log entry.
 
 Not in Scope : Application logs 
+
 In Scope : Everything else required for security audits e.g. System logs, Data Access logs and Storage access logs.
 
+Stackdriver has default retention period of 90 days for each log entry.
 We need to retain these log entries beyond the standard retention periods 
 for Auditing purpose e.g. SOX compliance audit 
 
