@@ -31,14 +31,14 @@ We assume log retention period for audit entries is around 7 years.
 
   
 *Goal:*  
-1 Facilitate audit activities and compliance within log retention period, 
+1. Facilitate audit activities and compliance within log retention period, 
 
    e.g GRC standards (https://en.wikipedia.org/wiki/Governance,_risk_management,_and_compliance) in a cloud environment 
        multiple resources of information could be reviewed and correlated. 
 
-1 Ensure Capability to capture  audit log at all levels of Organisation hierarchy
+1. Ensure Capability to capture  audit log at all levels of Organisation hierarchy
 
-1 To comply with all relevant retention policies.  
+1. To comply with all relevant retention policies.  
 
 More information on HOWTO-Audit logs : https://docs.google.com/document/d/13kSTJEthSwiGpJrB37F2PFcucMIctAYzNT7F5SuKcIU/edit?usp=sharing
 
