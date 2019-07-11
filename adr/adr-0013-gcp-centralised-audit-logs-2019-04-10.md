@@ -14,6 +14,7 @@
 This ADR concerns the Centralisation and retention of GCP Audit Logs. 
 
 *Scope :*
+
 only GCP platform is being covered, other cloud providers will be covered as part of separate ADR.
 
 GCP Stack Driver is used for storing and monitoring log entries,
