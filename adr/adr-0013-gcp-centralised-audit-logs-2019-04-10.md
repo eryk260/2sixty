@@ -13,23 +13,22 @@
 
 This ADR concerns the Centralisation and retention of GCP Audit Logs. 
 
-##Scope :
+*Scope :*
 GCP Stack Driver is used for storing and monitoring audit logs,
 both application and system categories of logs.
 Stackdriver has default retention period of 90 days for each log entry.
 
-Requirement is to retain system audit logs beyond the standard retention  periods 
+We need to retain system audit logs beyond the standard retention periods 
 for Auditing purpose e.g. SOX compliance audit 
 
-Develop Datalab reports for monitoring and alerting.
   
-##Goal:  
-1) To properly audit activities and compliance , e.g GRC standards in a cloud environment multiple resources of information needs to be reviewed and correlated. 
+*Goal:*  
+1) To properly audit activities and compliance , 
 
-There include a number of built in and third party services. Some are enabled by default ,and some need to be activated and configured . Ideally the various resource of actives logs and audit processes will be consolidated to facilitate change and incident management  
+   e.g GRC standards in a cloud environment 
+       multiple resources of information could be reviewed and correlated. 
 
 2) Once audit log is sinked into  BigQuery, you can use SQL to analyse GCP audit log to report any suspicious activity.
-
  
 3) Build Capability to capture  audit log at Organisaiton level or folder level
 
@@ -37,7 +36,9 @@ There include a number of built in and third party services. Some are enabled by
 
 5) Reports could be build to be used by Security officer to analyse and report if there is any suspicious activity
 
-6) Data from BigQuery table could be used for SOX Compliance audit
+6) Data from BigQuery table could be used for SOX Compliance audit. 
+
+7) Alerts and report could be build using Audit log entries.
 
 
 More information on HOWTO-Audit logs : https://docs.google.com/document/d/13kSTJEthSwiGpJrB37F2PFcucMIctAYzNT7F5SuKcIU/edit?usp=sharing
