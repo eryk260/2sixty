@@ -27,27 +27,18 @@ In Scope : Everything else required for security audits e.g. System logs, Data A
 Stackdriver has default retention period of 90 days for each log entry.
 We need to retain these log entries beyond the standard retention periods 
 for Auditing purpose e.g. SOX compliance audit. 
-We assume log retention period audit log is around 7 years. 
+We assume log retention period for audit entries is around 7 years. 
 
   
 *Goal:*  
-1) Facilitate audit activities and compliance , 
+1 Facilitate audit activities and compliance within log retention period, 
 
-   e.g GRC standards in a cloud environment 
+   e.g GRC standards (https://en.wikipedia.org/wiki/Governance,_risk_management,_and_compliance) in a cloud environment 
        multiple resources of information could be reviewed and correlated. 
 
-2) Once audit log is sinked into  BigQuery, you can use SQL to analyse GCP audit log to report any suspicious activity.
- 
-3) Build Capability to capture  audit log at Organisaiton level or folder level
+1 Ensure Capability to capture  audit log at all levels of Organisation hierarchy
 
-4) Aggregated Exports to central location
-
-5) Reports could be build to be used by Security officer to analyse and report if there is any suspicious activity
-
-6) Data from BigQuery table can be used for SOX Compliance audit. 
-
-
-
+1 To comply with all relevant retention policies.  
 
 More information on HOWTO-Audit logs : https://docs.google.com/document/d/13kSTJEthSwiGpJrB37F2PFcucMIctAYzNT7F5SuKcIU/edit?usp=sharing
 
@@ -55,6 +46,7 @@ More information on HOWTO-Audit logs : https://docs.google.com/document/d/13kSTJ
    Centralised Audit logs in BigQuery
 
 ## Consequences
-   - Datalab report for monitoring and alerting can be developed using audit logs in BigQuery
+   - Facilitate running SQL queries against audit log entries stored in BigQuery Tables for suspicious activitites.
+   - Faciliate builidng Reports for Security officer to analyse 
    - Data from BigQuery table could be used for SOX Compliance audit
-   - Audit logs retainedment policy can be determined based on Requirement of 2sixty
+ 
