@@ -26,11 +26,12 @@ In Scope : Everything else required for security audits e.g. System logs, Data A
 
 Stackdriver has default retention period of 90 days for each log entry.
 We need to retain these log entries beyond the standard retention periods 
-for Auditing purpose e.g. SOX compliance audit 
+for Auditing purpose e.g. SOX compliance audit. 
+We assume log retention period audit log is around 7 years. 
 
   
 *Goal:*  
-1) To properly audit activities and compliance , 
+1) Facilitate audit activities and compliance , 
 
    e.g GRC standards in a cloud environment 
        multiple resources of information could be reviewed and correlated. 
