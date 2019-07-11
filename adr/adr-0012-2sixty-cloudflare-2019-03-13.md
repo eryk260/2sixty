@@ -4,10 +4,10 @@
 
 ## Status
 
-- [x] active
+- [ ] active
 - [ ] rejected
 - [ ] deprecated
-- [ ] superseded
+- [x] superseded - ADR 0014
 
 ## Context
 
