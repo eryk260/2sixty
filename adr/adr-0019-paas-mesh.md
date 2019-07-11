@@ -1,4 +1,4 @@
-# ADR 0000: Istio
+# ADR 0019: A Service Mesh
 
 ## Status
 
@@ -12,8 +12,9 @@
 As we build out our platform we will need to be able to monitor our services effectively with as low effort as possible.
 
 One of the primary needs for the platform will be **observability**. Observability will allow us to monitor our services
-for their health and performance. Metrics gathered from each of our services will allow us to apply Service Level Objectives
-(SLOs) to expose what is really happening in our platform. With SLOs we can then make informed decisions as to whether
+for their health and performance. Metrics gathered from each of our services will allow us to compare
+[Service Level Objectives](https://landing.google.com/sre/sre-book/chapters/service-level-objectives/) (SLOs) to expose
+what is really happening in our platform (Indicators). With SLOs we can then make informed decisions as to whether
 focus is needed on technical debt, or we have some leeway in our "Error Budget" to introduce new features, with the
 potential instability that comes with them.
 
