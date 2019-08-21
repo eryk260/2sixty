@@ -5,7 +5,7 @@
 ## Status
 
 - [ ] active
-- [ ] rejected
+- [x] rejected
 - [ ] deprecated
 - [ ] superseded
 
