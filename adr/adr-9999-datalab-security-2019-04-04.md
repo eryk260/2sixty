@@ -75,6 +75,12 @@ Two concerns have been raised with Looker:
 1. Beta Features e.g. Custom Fields require Groups the enable user access. Due to Looker's current behaviour of re: User content sharing for users in the same group - This has been identified as a high security gap. Looker have responded to say that the use of Beta Groups will be deprecated.
 2. The manage_models permission is limited in scope and consequently provides Looker Instance-wide access to Users who have this permission. They can view other Looker Projects (Organisations) via the develop menu. Further information is available via the Looker issue sheet.
 
+TODO:
+What we will do?
+How will we configure an IAM platform?
+What SAML attributes will we translate?
+What practice will we then follow for adding users; i.e. users get added to both client groups and some other group that defines their role type?
+
 ## Consequences
 
 tbc
