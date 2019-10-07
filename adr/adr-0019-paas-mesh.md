@@ -2,8 +2,8 @@
 
 ## Status
 
-- [x] active
-- [ ] rejected
+- [ ] active
+- [x] rejected
 - [ ] deprecated
 - [ ] superseded
 
@@ -22,12 +22,17 @@ In the future the platform may require advanced deployment strategies and advanc
 aforementioned can be implemented using Istio. The sidecar containers that Istio injects will give us a great baseline
 of observability for a very small amount of developer work.
 
+However:
+* Service mesh technology is still imature.
+* Istio has caused problems when added to the platform.
+* Istio hass a lot of bells and whistles we don't need yet. 
+* Threre are other services mesh technologies to consider: https://landscape.cncf.io/category=service-mesh&format=card-mode&grouping=category
+* We have more pressing problems than observability, adding complexity to the system will hinder addressing them.
+
 ## Decision
 
-Istio is deployed as part of our Kubernetes clusters.
+Hold off adding Istio in the mix until there is an important problem we are confident it is the best solution for.
 
 ## Consequences
 
-- Slightly more load upon the clusters as new containers are introduced
-- Monitoring for all enabled Services
-- Leads to standardised authentication and authorization along with OPA
+Simplefied deployment and debugging.
