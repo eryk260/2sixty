@@ -15,7 +15,7 @@ React's previous implementation for manipulating the DOM, made use of a tree of 
 
 Manipulating a virtual DOM with this approach is very cheap and faster than working directly on the actual DOM. 
 
-React rebuilt and improved their diffing algorithm with React Fiber Architecture (as of v16). The previous approach recursively traversed a linked list tree based on the browser's default call stack. This new approach with React Fiber is a re-implementation of the browser's call-stack customised specifically for React components. This provides the ability to interrupt the call stack when required and manipulate (pause, abort, reuse etc...) stack frames. 
+React rebuilt and improved their diffing algorithm with React Fiber Architecture (as of v16). The previous approach recursively traversed a linked list tree based on the browser's default call-stack. This new approach with React Fiber is a re-implementation of the browser's call-stack customised specifically for React components. This provides the ability to interrupt the call-stack when required and manipulate (pause, abort, reuse etc...) stack frames. 
 
 In future, Angular will be introducing the Ivy renderer (and bundler) which goes a long way in trying to improve the initial load, the way it handles change detection and general performance of Angular. Ivy is yet to reach general availability (GA).
 
