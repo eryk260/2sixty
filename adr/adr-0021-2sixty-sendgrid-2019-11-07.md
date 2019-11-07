@@ -1,5 +1,5 @@
 
-# ADR 9999: Sendgrid as the default email sending platform for 2sixty products
+# ADR 0021: Sendgrid as the default email sending platform for 2sixty products
 
 ## Status
 
