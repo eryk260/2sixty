@@ -8,10 +8,15 @@
 - [ ] superseded
 
 ## Context
-In its current state Olive is using outdated libraries, outdated python version, is not ready for migration and this brings the following risks:
-1. Security risk related to using unsupported libraries
-2. Maintenance/release delay risk related to using unsupported libraries
-3. Adoption of new libraries risk, more likely new python libs are not going to support python2
+In its current state Olive is using outdated libraries, outdated python version, is not ready for migration and this brings the some  risks which cann be devided into the following categories:
+1. *Security*
+   - A lot of third-party libraries used in Olive are outdated and not supported anymore. We cannot upgrade them to more recent and still supported versions since they dropped Python2 support (e.g. Django which is the core of Olive). 
+   - In case of 0-day or any other security issues found in third-party library we will not get an official update and will need to fix the ptoblem ourselves which increases the time to patch the security hole as well as requires additional resources to support the upgraded library ourselves.
+2. *Olive stays alive in 2020*
+   - Olive development may be slowed down or even blocked because of outdated third-party libraries and inability to introduce new thir-party libraries which dropped Python2 support, which may affect thing like:
+     * New feature development
+     * Bugfixing
+     * New clients on-boarding
 
 We've outlined 3 potential scenarions of migration to python3. As a prerequisite for this migration there are few steps that need to be done in advance:
 1. Migrate codebase to be py3 ready (run python-modernize on existing codebase)
